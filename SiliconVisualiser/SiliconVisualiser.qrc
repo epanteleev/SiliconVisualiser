@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/SiliconVisualiser">
+        <file>Resources/largesphere.obj</file>
+    </qresource>
+</RCC>
