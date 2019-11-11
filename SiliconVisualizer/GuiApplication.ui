@@ -30,7 +30,7 @@
      <x>0</x>
      <y>0</y>
      <width>1030</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -51,9 +51,7 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="GuiApplication.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>actionExit</sender>

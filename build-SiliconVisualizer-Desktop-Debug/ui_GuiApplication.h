@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'GuiApplication.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.5
+** Created by: Qt User Interface Compiler version 5.13.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -58,7 +58,7 @@ public:
         GuiApplicationClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(GuiApplicationClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1030, 26));
+        menuBar->setGeometry(QRect(0, 0, 1030, 25));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         GuiApplicationClass->setMenuBar(menuBar);
@@ -74,12 +74,12 @@ public:
 
     void retranslateUi(QMainWindow *GuiApplicationClass)
     {
-        GuiApplicationClass->setWindowTitle(QApplication::translate("GuiApplicationClass", "Silicon Visualiser", nullptr));
-        actionExit->setText(QApplication::translate("GuiApplicationClass", "Exit", nullptr));
-#ifndef QT_NO_SHORTCUT
-        actionExit->setShortcut(QApplication::translate("GuiApplicationClass", "Ctrl+Q", nullptr));
-#endif // QT_NO_SHORTCUT
-        menuFile->setTitle(QApplication::translate("GuiApplicationClass", "File", nullptr));
+        GuiApplicationClass->setWindowTitle(QCoreApplication::translate("GuiApplicationClass", "Silicon Visualiser", nullptr));
+        actionExit->setText(QCoreApplication::translate("GuiApplicationClass", "Exit", nullptr));
+#if QT_CONFIG(shortcut)
+        actionExit->setShortcut(QCoreApplication::translate("GuiApplicationClass", "Ctrl+Q", nullptr));
+#endif // QT_CONFIG(shortcut)
+        menuFile->setTitle(QCoreApplication::translate("GuiApplicationClass", "File", nullptr));
     } // retranslateUi
 
 };

@@ -5,7 +5,7 @@
 #include <qcustom3ditem.h>
 
 #include "SiliconCell.h"
-#include <QtWidgets\qmessagebox.h>
+#include <QtWidgets/qmessagebox.h>
 #include "DialogSizeScatter.h"
 
 using namespace QtDataVisualization;
@@ -50,7 +50,7 @@ void Application::drawInit() {
 	m_graph->activeTheme()->setLabelTextColor(Qt::lightGray);
 	m_graph->activeTheme()->setFont(QFont("Arial Black", 30));
 
-	m_cell->init();
+    m_cell->init();
 	m_cell->generateData(QVector3D(1,1,1));
 
 	const auto horizontalRange = m_verticalRange * 2;

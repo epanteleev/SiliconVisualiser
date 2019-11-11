@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'DialogSizeScatter.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.5
+** Created by: Qt User Interface Compiler version 5.13.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -140,12 +140,12 @@ public:
 
     void retranslateUi(QDialog *DialogSizeScatter)
     {
-        DialogSizeScatter->setWindowTitle(QApplication::translate("DialogSizeScatter", "DialogSizeScatter", nullptr));
-        cancelButton->setText(QApplication::translate("DialogSizeScatter", "Cancel", nullptr));
-        applyButton->setText(QApplication::translate("DialogSizeScatter", "Apply", nullptr));
-        label_2->setText(QApplication::translate("DialogSizeScatter", "X", nullptr));
-        label_3->setText(QApplication::translate("DialogSizeScatter", "Y", nullptr));
-        label->setText(QApplication::translate("DialogSizeScatter", "Z", nullptr));
+        DialogSizeScatter->setWindowTitle(QCoreApplication::translate("DialogSizeScatter", "DialogSizeScatter", nullptr));
+        cancelButton->setText(QCoreApplication::translate("DialogSizeScatter", "Cancel", nullptr));
+        applyButton->setText(QCoreApplication::translate("DialogSizeScatter", "Apply", nullptr));
+        label_2->setText(QCoreApplication::translate("DialogSizeScatter", "X", nullptr));
+        label_3->setText(QCoreApplication::translate("DialogSizeScatter", "Y", nullptr));
+        label->setText(QCoreApplication::translate("DialogSizeScatter", "Z", nullptr));
     } // retranslateUi
 
 };

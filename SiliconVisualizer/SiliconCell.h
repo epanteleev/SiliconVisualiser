@@ -1,6 +1,6 @@
 #pragma once
-#include <QtDataVisualization\q3dscatter.h>
-#include <QtDataVisualization\qabstract3dgraph.h>
+#include <QtDataVisualization/q3dscatter.h>
+#include <QtDataVisualization/qabstract3dgraph.h>
 
 #include "AtomSet.h"
 

@@ -1,7 +1,7 @@
 #include "SiliconCell.h"
-#include <QtDataVisualization\q3dscatter.h>
-#include <QtDataVisualization\qabstract3dgraph.h>
-#include <QtDataVisualization\qcustom3ditem.h>
+#include <QtDataVisualization/q3dscatter.h>
+#include <QtDataVisualization/qabstract3dgraph.h>
+#include <QtDataVisualization/qcustom3ditem.h>
 #include <Qt3DRender/QMesh>
 #include <memory>
 
