@@ -25,12 +25,14 @@ public slots:
 	void createDialog(const AbstractDialogFabric& fabric, const Settings& set);
 
 private slots:
-	void triggerRotation();
+    void oscillation();
 	void toggleRotation();
 
 private:
 	float m_verticalRange = 7.0f;
-	
+
+    OscilationT oscilT = OscilationT::opticalLongitudinal;
+
 	SiliconSell* m_cell{};
 	QtDataVisualization::Q3DScatter* m_graph;
 

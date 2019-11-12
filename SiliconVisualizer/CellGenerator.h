@@ -3,6 +3,6 @@
 
 class CellGenerator {
 public:
-	static atom::AtomSet initialCubeCell(const QVector3D& s, const float len);
+    static std::pair<atom::AtomSet, std::vector<int>> initialCubeCell(const QVector3D& s, const float len);
 };
 

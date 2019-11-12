@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -43,22 +44,29 @@ public:
     QHBoxLayout *horizontalLayout;
     QSlider *rangeSlider;
     QLCDNumber *rangeNumber;
+    QSpacerItem *verticalSpacer_3;
+    QHBoxLayout *horizontalLayout_2;
+    QCheckBox *acoustic;
+    QCheckBox *optical;
+    QHBoxLayout *horizontalLayout_3;
+    QCheckBox *transverse;
+    QCheckBox *longitudinal;
     QSpacerItem *verticalSpacer_2;
 
     void setupUi(QDialog *DialogSizeScatter)
     {
         if (DialogSizeScatter->objectName().isEmpty())
             DialogSizeScatter->setObjectName(QString::fromUtf8("DialogSizeScatter"));
-        DialogSizeScatter->resize(240, 320);
+        DialogSizeScatter->resize(250, 370);
         cancelButton = new QPushButton(DialogSizeScatter);
         cancelButton->setObjectName(QString::fromUtf8("cancelButton"));
-        cancelButton->setGeometry(QRect(140, 280, 93, 28));
+        cancelButton->setGeometry(QRect(140, 320, 93, 28));
         applyButton = new QPushButton(DialogSizeScatter);
         applyButton->setObjectName(QString::fromUtf8("applyButton"));
-        applyButton->setGeometry(QRect(10, 280, 93, 28));
+        applyButton->setGeometry(QRect(10, 320, 93, 28));
         verticalLayoutWidget = new QWidget(DialogSizeScatter);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(9, 10, 221, 261));
+        verticalLayoutWidget->setGeometry(QRect(9, 10, 221, 281));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -127,6 +135,44 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout->addItem(verticalSpacer_3);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
+        acoustic = new QCheckBox(verticalLayoutWidget);
+        acoustic->setObjectName(QString::fromUtf8("acoustic"));
+
+        horizontalLayout_2->addWidget(acoustic);
+
+        optical = new QCheckBox(verticalLayoutWidget);
+        optical->setObjectName(QString::fromUtf8("optical"));
+
+        horizontalLayout_2->addWidget(optical);
+
+
+        verticalLayout->addLayout(horizontalLayout_2);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        transverse = new QCheckBox(verticalLayoutWidget);
+        transverse->setObjectName(QString::fromUtf8("transverse"));
+
+        horizontalLayout_3->addWidget(transverse);
+
+        longitudinal = new QCheckBox(verticalLayoutWidget);
+        longitudinal->setObjectName(QString::fromUtf8("longitudinal"));
+
+        horizontalLayout_3->addWidget(longitudinal);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
+
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer_2);
@@ -146,6 +192,10 @@ public:
         label_2->setText(QCoreApplication::translate("DialogSizeScatter", "X", nullptr));
         label_3->setText(QCoreApplication::translate("DialogSizeScatter", "Y", nullptr));
         label->setText(QCoreApplication::translate("DialogSizeScatter", "Z", nullptr));
+        acoustic->setText(QCoreApplication::translate("DialogSizeScatter", "acoustic", nullptr));
+        optical->setText(QCoreApplication::translate("DialogSizeScatter", "optical", nullptr));
+        transverse->setText(QCoreApplication::translate("DialogSizeScatter", "transverse", nullptr));
+        longitudinal->setText(QCoreApplication::translate("DialogSizeScatter", "longitudinal", nullptr));
     } // retranslateUi
 
 };

@@ -61,15 +61,12 @@ void Application::drawInit() {
 	m_graph->axisY()->setTitle("Y");
 	m_graph->axisZ()->setTitle("Z");
 
-	connect(&m_rotationTimer, &QTimer::timeout, this, &Application::triggerRotation);
+    connect(&m_rotationTimer, &QTimer::timeout, this, &Application::oscillation);
 }
 
-void Application::triggerRotation() {
-	m_angle += 1;
-	const auto vec = QVector3D(0.02 * std::cos( 0.02 * m_angle), 
-		0.02 * std::cos(0.02 * m_angle),
-		0.02 * std::cos(0.02 * m_angle));
-	m_cell->map(vec);
+void Application::oscillation() {
+    m_angle += 1;
+    m_cell->oscilation(m_angle * 0.01, 0.1, oscilT);
 }
 
 void Application::toggleRotation() {
