@@ -14,8 +14,31 @@ namespace atom {
 	};
 
 	using AtomSet = std::vector<QVector3D>;
+    using AtomLevel = std::vector<int>;
 
-	
+    class AtomPair {
+    public:
+        AtomPair() = default;
+
+        AtomPair(atom::AtomSet set, atom::AtomLevel levels) :
+            m_set(set),
+            m_levels(levels)
+        {
+
+        }
+
+        AtomLevel& first() noexcept {
+            return m_levels;
+        }
+
+        atom::AtomSet& second() noexcept {
+            return m_set;
+        }
+    private:
+        atom::AtomSet m_set{};
+        AtomLevel m_levels{};
+    };
+
 	inline atom::AtomSet map(std::function<QVector3D(QVector3D)> f, const atom::AtomSet& pos) {
 		std::unordered_set<QVector3D, Hash> ret;
 		for (auto& i : pos) {

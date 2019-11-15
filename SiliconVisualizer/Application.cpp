@@ -53,13 +53,14 @@ void Application::drawInit() {
     m_cell->init();
 	m_cell->generateData(QVector3D(1,1,1));
 
+
 	const auto horizontalRange = m_verticalRange * 2;
 	m_graph->axisX()->setRange(-horizontalRange, horizontalRange);
 	m_graph->axisY()->setRange(-m_verticalRange, m_verticalRange);
 	m_graph->axisZ()->setRange(-horizontalRange, horizontalRange);
-	m_graph->axisX()->setTitle("X");
-	m_graph->axisY()->setTitle("Y");
-	m_graph->axisZ()->setTitle("Z");
+    m_graph->axisX()->setTitle(tr("X"));
+    m_graph->axisY()->setTitle(tr("Y"));
+    m_graph->axisZ()->setTitle(tr("Z"));
 
     connect(&m_rotationTimer, &QTimer::timeout, this, &Application::oscillation);
 }
