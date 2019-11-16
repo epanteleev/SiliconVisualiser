@@ -54,19 +54,19 @@ void SiliconSell::update() {
     m_atom->dataProxy()->resetArray(m_data);
 }
 
-QVector3D SiliconSell::getNormShift(const OscilationT &t) {
+QVector3D SiliconSell::getNormShift(const OscilationType &t) {
     QVector3D res;
     switch (t) {
-    case OscilationT::acousticLongitudinal :
+    case OscilationType::AcousticLongitudinal :
         res = QVector3D(1, 1, 1);
         break;
-    case OscilationT::opticalLongitudinal :
+    case OscilationType::OpticalLongitudinal :
         res = QVector3D(1, 1, 1);
         break;
-    case OscilationT::acousticTransverse :
+    case OscilationType::AcousticTransverse :
         res = QVector3D(-1, 1, 0);
         break;
-    case OscilationT::opticalTransverse :
+    case OscilationType::OpticalTransverse :
         res = QVector3D(-1, 1, 0);
         break;
     }
@@ -74,17 +74,17 @@ QVector3D SiliconSell::getNormShift(const OscilationT &t) {
     return res;
 }
 
-void SiliconSell::oscilation(const double q, const double a, const OscilationT &type) {
+void SiliconSell::oscilation(const double q, const double a, const OscilationType &type) {
     QVector3D shift = getNormShift(type);
     size_t size = m_setCoordsAndLevels.second().size();
     atom::AtomSet& setCoordAtomsNew = m_setCoordsAndLevels.second();
     atom::AtomLevel& levels = m_setCoordsAndLevels.first();
 
-    if (type == OscilationT::acousticTransverse || type == OscilationT::acousticLongitudinal) {
+    if (type == OscilationType::AcousticTransverse || type == OscilationType::AcousticLongitudinal) {
         for (size_t i = 0; i < size; ++i) {
             setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + a * std::cos(pi * q * levels[i]) * shift;
         }
-    } else if (type == OscilationT::opticalTransverse || type == OscilationT::opticalLongitudinal) {
+    } else if (type == OscilationType::OpticalTransverse || type == OscilationType::OpticalLongitudinal) {
         for (size_t i = 0; i < size; ++i) {
             if (levels[i] % 2 == 0) {
                 setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + a * std::cos(pi * q * levels[i]) * shift;

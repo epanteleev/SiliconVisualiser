@@ -31,7 +31,7 @@ private slots:
 private:
 	float m_verticalRange = 7.0f;
 
-    OscilationT oscilT = OscilationT::acousticLongitudinal;
+    OscilationType m_oscilT = OscilationType::AcousticLongitudinal;
 
 	SiliconSell* m_cell{};
 	QtDataVisualization::Q3DScatter* m_graph;

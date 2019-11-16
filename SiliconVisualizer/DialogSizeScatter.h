@@ -21,13 +21,17 @@ private slots:
 	void updateCell();
 	void apply();
 	void cancel();
-	
+    void refreshType();
+    void setDown();
+
 private:
 	const SettingsSizeScatter* m_set;
 	Ui::DialogSizeScatter ui{};
 	float m_backupSizeItem;
 	QVector3D m_backupScale;
-	float m_prev;
+    OscilationType m_backupType;
+    float m_prevRange;
+
 };
 
 class DialogSizeScatterFabric : public AbstractDialogFabric {

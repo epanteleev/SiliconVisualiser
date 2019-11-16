@@ -67,7 +67,7 @@ void Application::drawInit() {
 
 void Application::oscillation() {
     m_angle += 1;
-    m_cell->oscilation(m_angle * 0.01, 0.1, oscilT);
+    m_cell->oscilation(m_angle * 0.01, 0.3, m_oscilT);
 }
 
 void Application::toggleRotation() {
@@ -83,8 +83,8 @@ void Application::setAction() {
 
 	const auto viewMenu = ui.menuBar->addMenu(tr("&View"));
 	
-	viewMenu->addAction(tr("&Range"), this, [=]() { createDialog(DialogSizeScatterFabric(),
-		SettingsSizeScatter(m_verticalRange, m_cell, m_graph)); });
+    viewMenu->addAction(tr("&Settings"), this, [=]() { createDialog(DialogSizeScatterFabric(),
+        SettingsSizeScatter(m_verticalRange, m_oscilT, m_cell, m_graph)); });
 }
 
 void Application::createDialog(const AbstractDialogFabric& fabric, const Settings& set) {

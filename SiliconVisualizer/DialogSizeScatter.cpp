@@ -6,6 +6,8 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 	m_set = dynamic_cast<const SettingsSizeScatter*>(&set);
 	m_backupSizeItem = m_set->m_graph->seriesList().first()->itemSize();
 	m_backupScale = m_set->m_cell->scale();
+    m_backupType = m_set->m_type;
+    m_prevRange = m_set->m_range;
 	ui.setupUi(this);
 
 	connect(ui.applyButton, &QPushButton::released, this, &DialogSizeScatter::apply);
@@ -16,15 +18,41 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 	connect(ui.xSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
 	connect(ui.zSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
 	connect(ui.ySpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
+
+    connect(ui.opticalRadioButton, &QRadioButton::released, this, &DialogSizeScatter::refreshType);
+    connect(ui.acousticRadioButton, &QRadioButton::released, this, &DialogSizeScatter::refreshType);
+    connect(ui.transverseRadioButton, &QRadioButton::released, this, &DialogSizeScatter::refreshType);
+    connect(ui.longitudinalRadioButton, &QRadioButton::released, this, &DialogSizeScatter::refreshType);
+
+    //set value
 	ui.rangeSlider->setValue(m_set->m_range);
 	
     const auto spinValue = m_set->m_cell->scale();
     ui.xSpinBox->setValue(spinValue.x());
     ui.ySpinBox->setValue(spinValue.y());
     ui.zSpinBox->setValue(spinValue.z());
+    setDown();
 
-	m_prev = m_set->m_range;
+}
 
+void DialogSizeScatter::setDown() {
+    const auto type = m_set->m_type;
+    if(type == OscilationType::OpticalLongitudinal) {
+        ui.opticalRadioButton->setChecked(true);
+        ui.longitudinalRadioButton->setChecked(true);
+    } else if (type == OscilationType::OpticalTransverse) {
+        ui.opticalRadioButton->setChecked(true);
+        ui.transverseRadioButton->setChecked(true);
+    } else if (type == OscilationType::AcousticLongitudinal) {
+        ui.acousticRadioButton->setChecked(true);
+        ui.longitudinalRadioButton->setChecked(true);
+    } else if (type == OscilationType::AcousticTransverse) {
+        ui.acousticRadioButton->setChecked(true);
+        ui.transverseRadioButton->setChecked(true);
+    } else {
+        qDebug()<<"error in DialogSizeScatter::refreshType";
+        std::terminate();
+    }
 }
 
 void DialogSizeScatter::update() {
@@ -36,12 +64,12 @@ void DialogSizeScatter::update() {
 	s->axisZ()->setRange(-horizontalRange, horizontalRange);
 
 	const auto size = s->seriesList().first()->itemSize();
-	const auto newSize = (m_prev * size) / float(verticalRange);
+    const auto newSize = (m_prevRange * size) / float(verticalRange);
 	
 	qDebug() << "DialogSizeScatter::update new size " << newSize;
 	s->seriesList().first()->setItemSize(newSize);
 	
-	m_prev = verticalRange;
+    m_prevRange = verticalRange;
 }
 
 void DialogSizeScatter::updateCell() {
@@ -66,5 +94,26 @@ void DialogSizeScatter::cancel() {
 	s->axisZ()->setRange(-rng, rng);
 	s->seriesList().first()->setItemSize(m_backupSizeItem);
 	m_set->m_cell->generateData(m_backupScale);
+    m_set->m_type = m_backupType;
 	this->close();
+}
+
+void DialogSizeScatter::refreshType() {
+    bool opt = ui.opticalRadioButton->isChecked();
+    bool acoust = ui.acousticRadioButton->isChecked();
+    bool longtd = ui.longitudinalRadioButton->isChecked();
+    bool transv = ui.transverseRadioButton->isChecked();
+
+    if(opt && longtd){
+        m_set->m_type = OscilationType::OpticalLongitudinal;
+    } else if (opt && transv) {
+        m_set->m_type = OscilationType::OpticalTransverse;
+    } else if (acoust && longtd) {
+        m_set->m_type = OscilationType::AcousticLongitudinal;
+    } else if (acoust && transv) {
+        m_set->m_type = OscilationType::AcousticTransverse;
+    } else {
+        qDebug()<<"error in DialogSizeScatter::refreshType";
+        std::terminate();
+    }
 }

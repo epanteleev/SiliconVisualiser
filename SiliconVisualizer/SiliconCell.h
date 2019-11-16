@@ -4,11 +4,11 @@
 
 #include "AtomSet.h"
 
-enum class OscilationT {
-    acousticTransverse = 0,
-    acousticLongitudinal,
-    opticalTransverse,
-    opticalLongitudinal
+enum class OscilationType {
+    AcousticTransverse = 0,
+    AcousticLongitudinal,
+    OpticalTransverse,
+    OpticalLongitudinal
 };
 
 class SiliconSell {
@@ -25,7 +25,7 @@ public:
 	
     void generateData(const QVector3D& scale, const float len = 5.0);
 
-    void oscilation(const double q, const double a, const OscilationT& type);
+    void oscilation(const double q, const double a, const OscilationType& type);
 
     const QVector3D& scale() const {
 		return m_scale;
@@ -33,7 +33,7 @@ public:
 
 private:
     void update();
-    QVector3D getNormShift(const OscilationT& t);
+    QVector3D getNormShift(const OscilationType& t);
 
 private:
 	QtDataVisualization::Q3DScatter* m_graph;
