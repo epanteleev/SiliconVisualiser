@@ -4,7 +4,12 @@
 
 #include "AtomSet.h"
 
-enum class OscilationT{acousticTransverse, acousticLongitudinal, opticalTransverse, opticalLongitudinal};
+enum class OscilationT {
+    acousticTransverse = 0,
+    acousticLongitudinal,
+    opticalTransverse,
+    opticalLongitudinal
+};
 
 class SiliconSell {
 public:
@@ -18,15 +23,16 @@ public:
 	
 	void init();
 	
-	void generateData(const QVector3D& scale, const float len = 4.0);
+    void generateData(const QVector3D& scale, const float len = 5.0);
 
-    void oscilation(const double q, const double a, const OscilationT& t);
+    void oscilation(const double q, const double a, const OscilationT& type);
 
-	const QVector3D& scale() const{
+    const QVector3D& scale() const {
 		return m_scale;
 	}
+
 private:
-	void update() const;
+    void update();
     QVector3D getNormShift(const OscilationT& t);
 
 private:
@@ -35,11 +41,8 @@ private:
 	QtDataVisualization::QScatter3DSeries* m_atom;
 	QtDataVisualization::QScatterDataArray* m_data;
 
-    // Ура!! Говнокод!!
-    std::pair<atom::AtomSet, std::vector<int>> m_setCoordsAndLevels;
-    #define m_setCoordAtoms (m_setCoordsAndLevels.first)
-    #define m_levels (m_setCoordsAndLevels.second)
-    atom::AtomSet m_setCoordAtomsNew;
+    atom::AtomPair m_setCoordsAndLevels;
+    atom::AtomSet m_originalSetCoordAtom;
 	QVector3D m_scale;
 
 };

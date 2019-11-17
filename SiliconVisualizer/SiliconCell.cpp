@@ -7,7 +7,7 @@
 #include <cmath>
 #include "CellGenerator.h"
 
-const double pi = 3.14159265359;
+static const double pi = 3.14159265359;
 
 using namespace  QtDataVisualization;
 
@@ -23,8 +23,6 @@ SiliconSell::SiliconSell(QtDataVisualization::Q3DScatter* graph, const float ato
 void SiliconSell::init() {
 	using namespace Qt3DRender;
 	
-
-    //					set.insert(QVector3D(posx[i] * len, posy[i] * len, posz[i] * len));
 	m_atom->setMesh(QAbstract3DSeries::MeshUserDefined);
 	
 	m_atom->setUserDefinedMesh(QStringLiteral(":/SiliconVisualiser/Resources/largesphere.obj"));
@@ -38,11 +36,14 @@ void SiliconSell::init() {
 	m_graph->addSeries(m_atom);
 }
 
-void SiliconSell::update() const {
-    if (m_setCoordAtomsNew.size() != m_data->size()) {
-        m_data->resize(m_setCoordAtomsNew.size());
+void SiliconSell::update() {
+
+    atom::AtomSet& setCoordAtomsNew = m_setCoordsAndLevels.second();
+
+    if (setCoordAtomsNew.size() != m_data->size()) {
+        m_data->resize(setCoordAtomsNew.size());
 	}
-    auto v = m_setCoordAtomsNew.begin();
+    auto v = setCoordAtomsNew.begin();
 	for (auto i = m_data->begin(); i != m_data->end(); ++i, ++v) {
 		i->setPosition(*v);
 	}
@@ -53,8 +54,7 @@ void SiliconSell::update() const {
     m_atom->dataProxy()->resetArray(m_data);
 }
 
-QVector3D SiliconSell::getNormShift(const OscilationT &t)
-{
+QVector3D SiliconSell::getNormShift(const OscilationT &t) {
     QVector3D res;
     switch (t) {
     case OscilationT::acousticLongitudinal :
@@ -74,22 +74,27 @@ QVector3D SiliconSell::getNormShift(const OscilationT &t)
     return res;
 }
 
-void SiliconSell::oscilation(const double q, const double a, const OscilationT &t)
-{
-    QVector3D shift = getNormShift(t);
-    if (t == OscilationT::acousticTransverse || t == OscilationT::acousticLongitudinal) {
-        for (int i = 0; i < m_setCoordAtoms.size(); ++i) {
-            m_setCoordAtomsNew[i] = m_setCoordAtoms[i] + a * std::cos(pi * q * m_levels[i]) * shift;
+void SiliconSell::oscilation(const double q, const double a, const OscilationT &type) {
+    QVector3D shift = getNormShift(type);
+    size_t size = m_setCoordsAndLevels.second().size();
+    atom::AtomSet& setCoordAtomsNew = m_setCoordsAndLevels.second();
+    atom::AtomLevel& levels = m_setCoordsAndLevels.first();
+
+    if (type == OscilationT::acousticTransverse || type == OscilationT::acousticLongitudinal) {
+        for (size_t i = 0; i < size; ++i) {
+            setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + a * std::cos(pi * q * levels[i]) * shift;
         }
-    }
-    if (t == OscilationT::opticalTransverse || t == OscilationT::opticalLongitudinal) {
-        for (int i = 0; i < m_setCoordAtoms.size(); ++i) {
-            if (m_levels[i] % 2 == 0) {
-                m_setCoordAtomsNew[i] = m_setCoordAtoms[i] + a * std::cos(pi * q * m_levels[i]) * shift;
+    } else if (type == OscilationT::opticalTransverse || type == OscilationT::opticalLongitudinal) {
+        for (size_t i = 0; i < size; ++i) {
+            if (levels[i] % 2 == 0) {
+                setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + a * std::cos(pi * q * levels[i]) * shift;
             } else {
-                m_setCoordAtomsNew[i] = m_setCoordAtoms[i] - a * std::cos(pi * q * m_levels[i]) * shift;
+                setCoordAtomsNew[i] = m_originalSetCoordAtom[i] - a * std::cos(pi * q * levels[i]) * shift;
             }
         }
+    } else{
+        qDebug()<<"error in SiliconSell::oscilation";
+        std::terminate();
     }
     update();
 }
@@ -97,6 +102,6 @@ void SiliconSell::oscilation(const double q, const double a, const OscilationT &
 void SiliconSell::generateData(const QVector3D& scale, const float len) {
 	m_scale = scale;
     m_setCoordsAndLevels = CellGenerator::initialCubeCell(scale, len);
-    m_setCoordAtomsNew = m_setCoordAtoms;
+    m_originalSetCoordAtom = m_setCoordsAndLevels.second();
 	update();
 }

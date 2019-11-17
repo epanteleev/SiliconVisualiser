@@ -18,8 +18,13 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 	connect(ui.ySpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
 	ui.rangeSlider->setValue(m_set->m_range);
 	
+    const auto spinValue = m_set->m_cell->scale();
+    ui.xSpinBox->setValue(spinValue.x());
+    ui.ySpinBox->setValue(spinValue.y());
+    ui.zSpinBox->setValue(spinValue.z());
+
 	m_prev = m_set->m_range;
-	//ui.rangeSlider->setMinimum(m_backupSizeItem * m_set->m_range);
+
 }
 
 void DialogSizeScatter::update() {

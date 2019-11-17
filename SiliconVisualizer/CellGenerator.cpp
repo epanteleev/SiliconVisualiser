@@ -1,6 +1,6 @@
 #include "CellGenerator.h"
 
-std::pair<atom::AtomSet, std::vector<int>> CellGenerator::initialCubeCell(const QVector3D& s, const float len) {
+atom::AtomPair CellGenerator::initialCubeCell(const QVector3D& s, const float len) {
 	using namespace atom;
 	const size_t size = 18;
 	const std::vector<float> posX{ 1, -1,  1,  1, -1,  1, -1, -1,    0,   0,  0,  0,  1, -1,   0.50, -0.50,  0.50, -0.50 };
@@ -29,5 +29,5 @@ std::pair<atom::AtomSet, std::vector<int>> CellGenerator::initialCubeCell(const 
     for (auto& elem : set) {
         setRes.insert(elem * len);
     }
-    return std::pair<atom::AtomSet, std::vector<int>> (atom::AtomSet(setRes.begin(), setRes.end()), levels);
+    return AtomPair(atom::AtomSet(setRes.begin(), setRes.end()), levels);
 }
