@@ -14,7 +14,7 @@ Application::Application(QWidget* parent)
 	: QMainWindow(parent),
 	  m_graph(new Q3DScatter())
 {
-	m_cell = new SiliconSell(m_graph);
+    m_cell = new SiliconCell(m_graph, 0.02f);
 	ui.setupUi(this);
 	drawInit();
 	toggleRotation();
@@ -51,7 +51,7 @@ void Application::drawInit() {
 	m_graph->activeTheme()->setFont(QFont("Arial Black", 30));
 
     m_cell->init();
-	m_cell->generateData(QVector3D(1,1,1));
+    m_cell->generateData(QVector3D(5,5,5), 5.65f / 2);
 
 
 	const auto horizontalRange = m_verticalRange * 2;
@@ -67,7 +67,7 @@ void Application::drawInit() {
 
 void Application::oscillation() {
     m_angle += 1;
-    m_cell->oscilation(m_angle * 0.01, 0.1, oscilT);
+    m_cell->oscilation(m_angle * 0.01, 0.1);
 }
 
 void Application::toggleRotation() {
@@ -81,7 +81,7 @@ void Application::toggleRotation() {
 
 void Application::setAction() {
 
-	const auto viewMenu = ui.menuBar->addMenu(tr("&View"));
+    const auto viewMenu = ui.menuBar->addMenu(tr("&View"));
 	
 	viewMenu->addAction(tr("&Range"), this, [=]() { createDialog(DialogSizeScatterFabric(),
 		SettingsSizeScatter(m_verticalRange, m_cell, m_graph)); });

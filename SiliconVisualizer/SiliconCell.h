@@ -11,11 +11,11 @@ enum class OscilationT {
     opticalLongitudinal
 };
 
-class SiliconSell {
+class SiliconCell {
 public:
-	SiliconSell(QtDataVisualization::Q3DScatter* graph, const float atomScaling = 0.05f);
+    SiliconCell(QtDataVisualization::Q3DScatter* graph, const float atomScaling = 0.05f);
 
-	~SiliconSell() = default;
+    ~SiliconCell() = default;
 	
 	void setScale(float scale) const {
 		m_atom->setItemSize(scale);
@@ -25,11 +25,15 @@ public:
 	
     void generateData(const QVector3D& scale, const float len = 5.0);
 
-    void oscilation(const double q, const double a, const OscilationT& type);
+    void oscilation(const double q, const double a);
 
     const QVector3D& scale() const {
 		return m_scale;
 	}
+
+    void setOscilT(const OscilationT &value);
+
+    OscilationT getOscilT() const;
 
 private:
     void update();
@@ -45,4 +49,5 @@ private:
     atom::AtomSet m_originalSetCoordAtom;
 	QVector3D m_scale;
 
+    OscilationT oscilT = OscilationT::acousticLongitudinal;
 };

@@ -9,7 +9,7 @@ public:
 
 class SettingsSizeScatter : public Settings  {
 public:
-	SettingsSizeScatter(float& range, SiliconSell* cell, QtDataVisualization::Q3DScatter* graph):
+    SettingsSizeScatter(float& range, SiliconCell* cell, QtDataVisualization::Q3DScatter* graph):
 		m_graph(graph),
 		m_cell(cell),
 		m_range(range)
@@ -18,6 +18,6 @@ public:
 	}
 	
 	const QtDataVisualization::Q3DScatter* m_graph;
-	SiliconSell* m_cell{};
+    SiliconCell* m_cell{};
 	float& m_range;
 };

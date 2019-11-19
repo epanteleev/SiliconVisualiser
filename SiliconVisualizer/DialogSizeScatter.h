@@ -21,13 +21,23 @@ private slots:
 	void updateCell();
 	void apply();
 	void cancel();
-	
+
+    void on_acoustic_toggled(bool checked);
+
+    void on_optical_toggled(bool checked);
+
+    void on_transverse_toggled(bool checked);
+
+    void on_longitudinal_toggled(bool checked);
+
 private:
 	const SettingsSizeScatter* m_set;
 	Ui::DialogSizeScatter ui{};
 	float m_backupSizeItem;
 	QVector3D m_backupScale;
+    OscilationT m_backupOscilT;
 	float m_prev;
+    OscilationT getOscilT();
 };
 
 class DialogSizeScatterFabric : public AbstractDialogFabric {

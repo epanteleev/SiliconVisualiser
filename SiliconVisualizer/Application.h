@@ -18,8 +18,8 @@ public:
 	~Application();
 
 private:
-	void drawInit();
-	void setAction();
+    void drawInit();
+    void setAction();
 
 public slots:
 	void createDialog(const AbstractDialogFabric& fabric, const Settings& set);
@@ -29,11 +29,9 @@ private slots:
 	void toggleRotation();
 
 private:
-	float m_verticalRange = 7.0f;
+    float m_verticalRange = 12.0f;
 
-    OscilationT oscilT = OscilationT::acousticLongitudinal;
-
-	SiliconSell* m_cell{};
+    SiliconCell* m_cell{};
 	QtDataVisualization::Q3DScatter* m_graph;
 
 	QTimer m_rotationTimer;

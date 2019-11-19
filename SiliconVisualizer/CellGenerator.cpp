@@ -8,9 +8,9 @@ atom::AtomPair CellGenerator::initialCubeCell(const QVector3D& s, const float le
 	const std::vector<float> posZ{ 1,  1,  1, -1,  1, -1, -1, -1,    1,  -1,  0,  0,  0,  0,   0.50,  0.50, -0.50, -0.50 };
 
     std::unordered_set<QVector3D, atom::Hash> set;
-    for (size_t shX = 0; shX < s.x(); ++shX) {
-        for (size_t shY = 0; shY < s.y(); ++shY) {
-            for (size_t shZ = 0; shZ < s.z(); ++shZ) {
+    for (int shX = -(s.x() / 2); shX < s.x() / 2; ++shX) {
+        for (int shY = -(s.y() / 2); shY < s.y() / 2; ++shY) {
+            for (int shZ = -(s.z() / 2); shZ < s.z() / 2; ++shZ) {
 				auto posx = map<float>([=](float i) { return shX * 2 + i; }, posX);
 				auto posy = map<float>([=](float i) { return shY * 2 + i; }, posY);
 				auto posz = map<float>([=](float i) { return shZ * 2 + i; }, posZ);
