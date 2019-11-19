@@ -74,6 +74,16 @@ QVector3D SiliconCell::getNormShift(const OscilationT &t) {
     return res;
 }
 
+double SiliconCell::getAmpl() const
+{
+    return ampl;
+}
+
+void SiliconCell::setAmpl(double value)
+{
+    ampl = value;
+}
+
 OscilationT SiliconCell::getOscilT() const
 {
     return oscilT;
@@ -84,7 +94,7 @@ void SiliconCell::setOscilT(const OscilationT &value)
     oscilT = value;
 }
 
-void SiliconCell::oscilation(const double q, const double a) {
+void SiliconCell::oscilation(const double q) {
     QVector3D shift = getNormShift(oscilT);
     size_t size = m_setCoordsAndLevels.second().size();
     atom::AtomSet& setCoordAtomsNew = m_setCoordsAndLevels.second();
@@ -92,14 +102,14 @@ void SiliconCell::oscilation(const double q, const double a) {
 
     if (oscilT == OscilationT::acousticTransverse || oscilT == OscilationT::acousticLongitudinal) {
         for (size_t i = 0; i < size; ++i) {
-            setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + a * std::cos(pi * q * levels[i]) * shift;
+            setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + ampl * std::cos(pi * q * levels[i]) * shift;
         }
     } else if (oscilT == OscilationT::opticalTransverse || oscilT == OscilationT::opticalLongitudinal) {
         for (size_t i = 0; i < size; ++i) {
             if (levels[i] % 2 == 0) {
-                setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + a * std::cos(pi * q * levels[i]) * shift;
+                setCoordAtomsNew[i] = m_originalSetCoordAtom[i] + ampl * std::cos(pi * q * levels[i]) * shift;
             } else {
-                setCoordAtomsNew[i] = m_originalSetCoordAtom[i] - a * std::cos(pi * q * levels[i]) * shift;
+                setCoordAtomsNew[i] = m_originalSetCoordAtom[i] - ampl * std::cos(pi * q * levels[i]) * shift;
             }
         }
     } else{

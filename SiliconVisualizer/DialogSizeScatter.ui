@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>250</width>
-    <height>370</height>
+    <height>401</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>DialogSizeScatter</string>
+   <string>Settings</string>
   </property>
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>320</y>
+     <y>360</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>320</y>
+     <y>360</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -45,7 +45,7 @@
      <x>9</x>
      <y>10</y>
      <width>221</width>
-     <height>281</height>
+     <height>331</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -112,6 +112,13 @@
      </spacer>
     </item>
     <item>
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Scale</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QSlider" name="rangeSlider">
@@ -119,7 +126,7 @@
          <number>1</number>
         </property>
         <property name="maximum">
-         <number>200</number>
+         <number>80</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -216,6 +223,30 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <item>
+       <widget class="QSlider" name="amplitudeSlider">
+        <property name="maximum">
+         <number>40</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="amplitude">
+        <property name="text">
+         <string>Amplitude</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

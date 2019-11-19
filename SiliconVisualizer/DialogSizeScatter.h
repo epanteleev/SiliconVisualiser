@@ -37,6 +37,7 @@ private:
 	QVector3D m_backupScale;
     OscilationT m_backupOscilT;
 	float m_prev;
+    double m_amplitude;
     OscilationT getOscilT();
 };
 

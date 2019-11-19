@@ -7,12 +7,15 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 	m_backupSizeItem = m_set->m_graph->seriesList().first()->itemSize();
 	m_backupScale = m_set->m_cell->scale();
     m_backupOscilT = m_set->m_cell->getOscilT();
+    m_amplitude = m_set->m_cell->getAmpl();
 	ui.setupUi(this);
 
 	connect(ui.applyButton, &QPushButton::released, this, &DialogSizeScatter::apply);
     connect(ui.cancelButton, &QPushButton::released, this, &DialogSizeScatter::cancel);
 	
-	connect(ui.rangeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::update);
+    connect(ui.rangeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::update);
+
+    connect(ui.amplitudeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updateCell);
 	
 	connect(ui.xSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
 	connect(ui.zSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
@@ -25,6 +28,7 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 
 	ui.rangeSlider->setValue(m_set->m_range);
 	
+    ui.amplitudeSlider->setValue(m_amplitude * 20);
     const auto spinValue = m_set->m_cell->scale();
     ui.xSpinBox->setValue(spinValue.x());
     ui.ySpinBox->setValue(spinValue.y());
@@ -36,6 +40,7 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
                         m_backupOscilT == OscilationT::acousticLongitudinal);
     on_longitudinal_toggled(m_backupOscilT == OscilationT::acousticLongitudinal ||
                             m_backupOscilT == OscilationT::opticalLongitudinal);
+
 }
 
 void DialogSizeScatter::update() {
@@ -62,6 +67,7 @@ void DialogSizeScatter::updateCell() {
 	vec.setZ(ui.zSpinBox->value());
     m_set->m_cell->generateData(vec);
     m_set->m_cell->setOscilT(getOscilT());
+    m_set->m_cell->setAmpl(ui.amplitudeSlider->value() / 20);
 }
 
 void DialogSizeScatter::apply() {
@@ -79,6 +85,7 @@ void DialogSizeScatter::cancel() {
 	s->seriesList().first()->setItemSize(m_backupSizeItem);
     m_set->m_cell->setOscilT(m_backupOscilT);
 	m_set->m_cell->generateData(m_backupScale);
+    m_set->m_cell->setAmpl(m_amplitude);
 	this->close();
 }
 

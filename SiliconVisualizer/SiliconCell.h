@@ -25,7 +25,7 @@ public:
 	
     void generateData(const QVector3D& scale, const float len = 5.0);
 
-    void oscilation(const double q, const double a);
+    void oscilation(const double q);
 
     const QVector3D& scale() const {
 		return m_scale;
@@ -34,6 +34,9 @@ public:
     void setOscilT(const OscilationT &value);
 
     OscilationT getOscilT() const;
+
+    double getAmpl() const;
+    void setAmpl(double value);
 
 private:
     void update();
@@ -48,6 +51,7 @@ private:
     atom::AtomPair m_setCoordsAndLevels;
     atom::AtomSet m_originalSetCoordAtom;
 	QVector3D m_scale;
+    double ampl = 0.1f;
 
     OscilationT oscilT = OscilationT::acousticLongitudinal;
 };
