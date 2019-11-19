@@ -23,9 +23,9 @@ public:
 	
 	void init();
 	
-    void generateData(const QVector3D& scale, const float len = 5.0);
+    void generateData(const QVector3D& scale);
 
-    void oscilation(const double q);
+    void oscilation(const double t);
 
     const QVector3D& scale() const {
 		return m_scale;
@@ -38,6 +38,12 @@ public:
     double getAmpl() const;
     void setAmpl(double value);
 
+    double getQ() const;
+    void setQ(double value);
+
+    double getFreq() const;
+    void setFreq(double value);
+
 private:
     void update();
     QVector3D getNormShift(const OscilationT& t);
@@ -47,11 +53,12 @@ private:
 	static const size_t size = 18;
 	QtDataVisualization::QScatter3DSeries* m_atom;
 	QtDataVisualization::QScatterDataArray* m_data;
-
+    float m_distanceBetweenAtoms = 5.4307f;
     atom::AtomPair m_setCoordsAndLevels;
     atom::AtomSet m_originalSetCoordAtom;
 	QVector3D m_scale;
-    double ampl = 0.1f;
-
+    double m_ampl = 0.1f;
+    double m_q = 1.;
+    double m_freq = 1.;
     OscilationT oscilT = OscilationT::acousticLongitudinal;
 };

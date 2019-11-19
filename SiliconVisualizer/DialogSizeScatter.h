@@ -18,7 +18,8 @@ private:
 	};
 private slots:
 	void update();
-	void updateCell();
+    void updateCellShape();
+    void updatePhysParams();
 	void apply();
 	void cancel();
 
@@ -37,7 +38,9 @@ private:
 	QVector3D m_backupScale;
     OscilationT m_backupOscilT;
 	float m_prev;
-    double m_amplitude;
+    double m_backupAmplitude;
+    double m_backupQ;
+    double m_backupFreq;
     OscilationT getOscilT();
 };
 

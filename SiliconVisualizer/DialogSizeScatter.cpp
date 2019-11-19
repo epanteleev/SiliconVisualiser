@@ -7,28 +7,34 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 	m_backupSizeItem = m_set->m_graph->seriesList().first()->itemSize();
 	m_backupScale = m_set->m_cell->scale();
     m_backupOscilT = m_set->m_cell->getOscilT();
-    m_amplitude = m_set->m_cell->getAmpl();
+    m_backupAmplitude = m_set->m_cell->getAmpl();
+    m_backupQ = m_set->m_cell->getQ();
+    m_backupFreq = m_set->m_cell->getFreq();
 	ui.setupUi(this);
 
 	connect(ui.applyButton, &QPushButton::released, this, &DialogSizeScatter::apply);
     connect(ui.cancelButton, &QPushButton::released, this, &DialogSizeScatter::cancel);
 	
     connect(ui.rangeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::update);
-
-    connect(ui.amplitudeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updateCell);
 	
-	connect(ui.xSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
-	connect(ui.zSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
-    connect(ui.ySpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCell()));
+    connect(ui.xSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCellShape()));
+    connect(ui.zSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCellShape()));
+    connect(ui.ySpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCellShape()));
 
-    connect(ui.optical, SIGNAL(toggled(bool)), this, SLOT(updateCell()));
-    connect(ui.acoustic, SIGNAL(toggled(bool)), this, SLOT(updateCell()));
-    connect(ui.longitudinal, SIGNAL(toggled(bool)), this, SLOT(updateCell()));
-    connect(ui.transverse, SIGNAL(toggled(bool)), this, SLOT(updateCell()));
+    connect(ui.amplitudeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updatePhysParams);
+    connect(ui.qSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updatePhysParams);
+    connect(ui.freqSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updatePhysParams);
+
+    connect(ui.optical, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
+    connect(ui.acoustic, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
+    connect(ui.longitudinal, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
+    connect(ui.transverse, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
 
 	ui.rangeSlider->setValue(m_set->m_range);
 	
-    ui.amplitudeSlider->setValue(m_amplitude * 20);
+    ui.amplitudeSlider->setValue(m_backupAmplitude * 20);
+    ui.qSlider->setValue(m_set->m_cell->getQ());
+    ui.freqSlider->setValue(m_set->m_cell->getFreq() * 10);
     const auto spinValue = m_set->m_cell->scale();
     ui.xSpinBox->setValue(spinValue.x());
     ui.ySpinBox->setValue(spinValue.y());
@@ -41,6 +47,9 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
     on_longitudinal_toggled(m_backupOscilT == OscilationT::acousticLongitudinal ||
                             m_backupOscilT == OscilationT::opticalLongitudinal);
 
+    ui.amplitudeNumber->display(QString::number(m_set->m_cell->getAmpl()) + QString(" A"));
+    ui.amplitudeNumber->display(m_set->m_cell->getQ());
+    ui.freqNumber->display(m_set->m_cell->getFreq());
 }
 
 void DialogSizeScatter::update() {
@@ -57,17 +66,26 @@ void DialogSizeScatter::update() {
 	qDebug() << "DialogSizeScatter::update new size " << newSize;
 	s->seriesList().first()->setItemSize(newSize);
 	
-	m_prev = verticalRange;
+    m_prev = verticalRange;
 }
 
-void DialogSizeScatter::updateCell() {
+void DialogSizeScatter::updateCellShape() {
 	QVector3D vec;
 	vec.setX(ui.xSpinBox->value());
 	vec.setY(ui.ySpinBox->value());
 	vec.setZ(ui.zSpinBox->value());
     m_set->m_cell->generateData(vec);
+}
+
+void DialogSizeScatter::updatePhysParams()
+{
     m_set->m_cell->setOscilT(getOscilT());
-    m_set->m_cell->setAmpl(ui.amplitudeSlider->value() / 20);
+    m_set->m_cell->setAmpl(ui.amplitudeSlider->value() / 20.);
+    ui.amplitudeNumber->display(QString::number(m_set->m_cell->getAmpl()) + QString(" A"));
+    m_set->m_cell->setQ(ui.qSlider->value());
+    ui.qNumber->display(m_set->m_cell->getQ());
+    m_set->m_cell->setFreq(ui.freqSlider->value() / 10.);
+    ui.freqNumber->display(m_set->m_cell->getFreq());
 }
 
 void DialogSizeScatter::apply() {
@@ -85,7 +103,9 @@ void DialogSizeScatter::cancel() {
 	s->seriesList().first()->setItemSize(m_backupSizeItem);
     m_set->m_cell->setOscilT(m_backupOscilT);
 	m_set->m_cell->generateData(m_backupScale);
-    m_set->m_cell->setAmpl(m_amplitude);
+    m_set->m_cell->setAmpl(m_backupAmplitude);
+    m_set->m_cell->setQ(m_backupQ);
+    m_set->m_cell->setFreq(m_backupFreq);
 	this->close();
 }
 

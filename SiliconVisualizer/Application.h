@@ -29,7 +29,7 @@ private slots:
 	void toggleRotation();
 
 private:
-    float m_verticalRange = 12.0f;
+    float m_verticalRange = 16.0f;
 
     SiliconCell* m_cell{};
 	QtDataVisualization::Q3DScatter* m_graph;

@@ -14,11 +14,11 @@ Application::Application(QWidget* parent)
 	: QMainWindow(parent),
 	  m_graph(new Q3DScatter())
 {
-    m_cell = new SiliconCell(m_graph, 0.02f);
+    m_cell = new SiliconCell(m_graph, 0.015f);
 	ui.setupUi(this);
 	drawInit();
 	toggleRotation();
-	setAction();
+    setAction();
 }
 
 Application::~Application() {
@@ -44,14 +44,14 @@ void Application::drawInit() {
 
 	m_graph->setShadowQuality(QAbstract3DGraph::ShadowQualityNone);
 	m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricRight);
-	m_graph->activeTheme()->setType(Q3DTheme::ThemeRetro);
+    m_graph->activeTheme()->setType(Q3DTheme::ThemeRetro);
 	m_graph->activeTheme()->setLabelBorderEnabled(true);
-	//m_graph->activeTheme()->setLabelBackgroundColor(QColor(QRgb(0x151550)));
+//    m_graph->activeTheme()->setLabelBackgroundColor(QColor(QRgb(0x151550)));
 	m_graph->activeTheme()->setLabelTextColor(Qt::lightGray);
 	m_graph->activeTheme()->setFont(QFont("Arial Black", 30));
 
     m_cell->init();
-    m_cell->generateData(QVector3D(5,5,5), 5.65f / 2);
+    m_cell->generateData(QVector3D(5,5,5));
 
 
 	const auto horizontalRange = m_verticalRange * 2;
@@ -67,7 +67,7 @@ void Application::drawInit() {
 
 void Application::oscillation() {
     m_angle += 1;
-    m_cell->oscilation(m_angle * 0.01);
+    m_cell->oscilation(m_angle * 0.1);
 }
 
 void Application::toggleRotation() {

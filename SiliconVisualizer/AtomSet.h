@@ -7,8 +7,8 @@
 namespace atom {
 	struct Hash {
 		size_t operator() (const QVector3D& vec) const {
-			return static_cast<size_t>(vec.x()) * 3 +
-				static_cast<size_t>(vec.y()) * 2 +
+            return static_cast<size_t>(vec.x()) * 300 +
+                static_cast<size_t>(vec.y()) * 200 +
 				static_cast<size_t>(vec.z());
 		}
 	};

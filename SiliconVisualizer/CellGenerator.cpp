@@ -20,14 +20,12 @@ atom::AtomPair CellGenerator::initialCubeCell(const QVector3D& s, const float le
 			}
 		}
 	}
+    AtomSet setRes(set.size());
     std::vector<int> levels(set.size());
     auto it = set.begin();
     for(size_t i = 0; i < levels.size(); ++i, ++it) {
         levels[i] = -(static_cast<int>((*it).x()) + static_cast<int>((*it).y()) + static_cast<int>((*it).z()));
-    }
-    std::unordered_set<QVector3D, atom::Hash> setRes;
-    for (auto& elem : set) {
-        setRes.insert(elem * len);
+        setRes[i] = (*it) * len;
     }
     return AtomPair(atom::AtomSet(setRes.begin(), setRes.end()), levels);
 }
