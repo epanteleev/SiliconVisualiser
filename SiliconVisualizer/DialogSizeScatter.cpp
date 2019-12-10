@@ -15,7 +15,7 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 	connect(ui.applyButton, &QPushButton::released, this, &DialogSizeScatter::apply);
     connect(ui.cancelButton, &QPushButton::released, this, &DialogSizeScatter::cancel);
 	
-    connect(ui.rangeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::update);
+    connect(ui.rangeSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updateScale);
 	
     connect(ui.xSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCellShape()));
     connect(ui.zSpinBox, SIGNAL(valueChanged(int)), this, SLOT(updateCellShape()));
@@ -25,13 +25,17 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
     connect(ui.qSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updatePhysParams);
     connect(ui.freqSlider, &QSlider::sliderReleased, this, &DialogSizeScatter::updatePhysParams);
 
+    connect(ui.amplitudeSlider, SIGNAL(valueChanged(int)), this, SLOT(changedSliders()));
+    connect(ui.qSlider, SIGNAL(valueChanged(int)), this, SLOT(changedSliders()));
+    connect(ui.freqSlider, SIGNAL(valueChanged(int)), this, SLOT(changedSliders()));
+
     connect(ui.optical, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
     connect(ui.acoustic, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
     connect(ui.longitudinal, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
     connect(ui.transverse, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
 
+    //initiated
 	ui.rangeSlider->setValue(m_set->m_range);
-	
     ui.amplitudeSlider->setValue(m_backupAmplitude * 20);
     ui.qSlider->setValue(m_set->m_cell->getQ());
     ui.freqSlider->setValue(m_set->m_cell->getFreq() * 10);
@@ -52,7 +56,7 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
     ui.freqNumber->display(m_set->m_cell->getFreq());
 }
 
-void DialogSizeScatter::update() {
+void DialogSizeScatter::updateScale() {
 	const auto s = m_set->m_graph;
 	const auto verticalRange = ui.rangeSlider->value();
 	const auto horizontalRange = verticalRange * 2;
@@ -77,15 +81,18 @@ void DialogSizeScatter::updateCellShape() {
     m_set->m_cell->generateData(vec);
 }
 
-void DialogSizeScatter::updatePhysParams()
-{
+void  DialogSizeScatter::changedSliders() {
+    ui.amplitudeNumber->display(QString::number(ui.amplitudeSlider->value() / 20.) + QString(" A"));
+    ui.qNumber->display(ui.qSlider->value());
+    ui.freqNumber->display(ui.freqSlider->value() / 10.);
+}
+
+void DialogSizeScatter::updatePhysParams() {
+    changedSliders();
     m_set->m_cell->setOscilT(getOscilT());
     m_set->m_cell->setAmpl(ui.amplitudeSlider->value() / 20.);
-    ui.amplitudeNumber->display(QString::number(m_set->m_cell->getAmpl()) + QString(" A"));
     m_set->m_cell->setQ(ui.qSlider->value());
-    ui.qNumber->display(m_set->m_cell->getQ());
     m_set->m_cell->setFreq(ui.freqSlider->value() / 10.);
-    ui.freqNumber->display(m_set->m_cell->getFreq());
 }
 
 void DialogSizeScatter::apply() {
@@ -109,8 +116,7 @@ void DialogSizeScatter::cancel() {
 	this->close();
 }
 
-void DialogSizeScatter::on_acoustic_toggled(bool checked)
-{
+void DialogSizeScatter::on_acoustic_toggled(bool checked) {
     if (checked) {
         ui.acoustic->setCheckState(Qt::CheckState::Checked);
         ui.optical->setCheckState(Qt::CheckState::Unchecked);
@@ -121,8 +127,7 @@ void DialogSizeScatter::on_acoustic_toggled(bool checked)
 
 }
 
-void DialogSizeScatter::on_optical_toggled(bool checked)
-{
+void DialogSizeScatter::on_optical_toggled(bool checked) {
     if (checked) {
         ui.acoustic->setCheckState(Qt::CheckState::Unchecked);
         ui.optical->setCheckState(Qt::CheckState::Checked);
@@ -132,8 +137,7 @@ void DialogSizeScatter::on_optical_toggled(bool checked)
     }
 }
 
-void DialogSizeScatter::on_transverse_toggled(bool checked)
-{
+void DialogSizeScatter::on_transverse_toggled(bool checked) {
     if (checked) {
         ui.transverse->setCheckState(Qt::CheckState::Checked);
         ui.longitudinal->setCheckState(Qt::CheckState::Unchecked);
@@ -143,8 +147,7 @@ void DialogSizeScatter::on_transverse_toggled(bool checked)
     }
 }
 
-void DialogSizeScatter::on_longitudinal_toggled(bool checked)
-{
+void DialogSizeScatter::on_longitudinal_toggled(bool checked) {
     if (checked) {
         ui.transverse->setCheckState(Qt::CheckState::Unchecked);
         ui.longitudinal->setCheckState(Qt::CheckState::Checked);
@@ -154,8 +157,7 @@ void DialogSizeScatter::on_longitudinal_toggled(bool checked)
     }
 }
 
-OscilationT DialogSizeScatter::getOscilT()
-{
+OscilationT DialogSizeScatter::getOscilT() {
     if (ui.acoustic->checkState() == Qt::CheckState::Checked) {
         if (ui.transverse->checkState() == Qt::CheckState::Checked) {
             return OscilationT::acousticTransverse;

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Silicon Visualiser</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="SiliconVisualiser.qrc">
+    <normaloff>:/SiliconVisualiser/Resources/silicon-cell.png</normaloff>:/SiliconVisualiser/Resources/silicon-cell.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
@@ -30,7 +34,7 @@
      <x>0</x>
      <y>0</y>
      <width>1030</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -51,7 +55,9 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="SiliconVisualiser.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionExit</sender>

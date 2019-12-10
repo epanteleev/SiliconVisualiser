@@ -32,7 +32,6 @@ void SiliconCell::init() {
 	fieldGradient.setColorAt(1.0, Qt::white);
 	m_atom->setBaseGradient(fieldGradient);
 	m_atom->setColorStyle(Q3DTheme::ColorStyleRangeGradient);
-
 	m_graph->addSeries(m_atom);
 }
 
@@ -74,43 +73,35 @@ QVector3D SiliconCell::getNormShift(const OscilationT &t) {
     return res;
 }
 
-double SiliconCell::getFreq() const
-{
+double SiliconCell::getFreq() const {
     return m_freq;
 }
 
-void SiliconCell::setFreq(double value)
-{
+void SiliconCell::setFreq(double value) {
     m_freq = value;
 }
 
-double SiliconCell::getQ() const
-{
+double SiliconCell::getQ() const {
     return m_q;
 }
 
-void SiliconCell::setQ(double value)
-{
+void SiliconCell::setQ(double value) {
     m_q = value;
 }
 
-double SiliconCell::getAmpl() const
-{
+double SiliconCell::getAmpl() const {
     return m_ampl;
 }
 
-void SiliconCell::setAmpl(double value)
-{
+void SiliconCell::setAmpl(double value) {
     m_ampl = value;
 }
 
-OscilationT SiliconCell::getOscilT() const
-{
+OscilationT SiliconCell::getOscilT() const {
     return oscilT;
 }
 
-void SiliconCell::setOscilT(const OscilationT &value)
-{
+void SiliconCell::setOscilT(const OscilationT &value) {
     oscilT = value;
 }
 

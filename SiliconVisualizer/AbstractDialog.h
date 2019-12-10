@@ -13,9 +13,6 @@ public:
 	}
 
 	virtual ~AbstractDialog() = default;
-	
-private slots:
-	void action();
 
 };
 

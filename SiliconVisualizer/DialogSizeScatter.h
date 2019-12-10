@@ -17,12 +17,12 @@ private:
 		Z
 	};
 private slots:
-	void update();
+    void updateScale();
     void updateCellShape();
     void updatePhysParams();
 	void apply();
 	void cancel();
-
+    void changedSliders();
     void on_acoustic_toggled(bool checked);
 
     void on_optical_toggled(bool checked);

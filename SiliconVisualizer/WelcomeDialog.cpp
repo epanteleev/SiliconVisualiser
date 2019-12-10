@@ -1,14 +1,14 @@
 #include "WelcomeDialog.h"
 #include "ui_WelcomeDialog.h"
+#include <QPixmap>
 
-WelcomeDialog::WelcomeDialog(QWidget *parent) :
-    QDialog(parent),
+WelcomeDialog::WelcomeDialog(const Settings& set, QWidget* parent) :
+    AbstractDialog(parent),
     ui(new Ui::WelcomeDialog)
 {
     ui->setupUi(this);
 }
 
-WelcomeDialog::~WelcomeDialog()
-{
+WelcomeDialog::~WelcomeDialog() {
     delete ui;
 }

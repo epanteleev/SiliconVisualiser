@@ -20,6 +20,7 @@ public:
 private:
     void drawInit();
     void setAction();
+    void showWelcomeWindow();
 
 public slots:
 	void createDialog(const AbstractDialogFabric& fabric, const Settings& set);
@@ -38,5 +39,5 @@ private:
 	Ui::GuiApplicationClass ui;
 	unsigned m_angle{};
 
-	AbstractDialog* active{};
+    AbstractDialog* m_active{};
 };

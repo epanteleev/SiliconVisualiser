@@ -20,6 +20,7 @@ SOURCES += \
     CellGenerator.cpp \
     DialogSizeScatter.cpp \
     SiliconCell.cpp \
+    WelcomeDialog.cpp \
     main.cpp \
     Application.cpp
 
@@ -32,16 +33,29 @@ HEADERS += \
     Settings.h \
     SiliconCell.h \
     SiliconVisualiser.rc \
-    resource.h
+    WelcomeDialog.h
 
 FORMS += \
     DialogSizeScatter.ui \
-    GuiApplication.ui
+    GuiApplication.ui \
+    WelcomeDialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+CONFIG(release, debug|release) {
+    message( "enable release mode" )
+    win32-g++ {
+        message("used g++")
+        QMAKE_CXXFLAGS += -O3
+    }
+}
+
+CONFIG(debug, debug|release) {
+    message( "enable debug mode" )
+}
 
 RESOURCES += \
     SiliconVisualiser.qrc

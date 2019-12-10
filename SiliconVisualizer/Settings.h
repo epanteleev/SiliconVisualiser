@@ -21,3 +21,7 @@ public:
     SiliconCell* m_cell{};
 	float& m_range;
 };
+
+class SettingsNone : public Settings {
+    //None
+};

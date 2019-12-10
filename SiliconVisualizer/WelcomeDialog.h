@@ -1,22 +1,27 @@
-#ifndef WELCOMEDIALOG_H
-#define WELCOMEDIALOG_H
+#pragma once
 
 #include <QDialog>
+#include "AbstractDialog.h"
 
 namespace Ui {
 class WelcomeDialog;
 }
 
-class WelcomeDialog : public QDialog
-{
+class WelcomeDialog : public AbstractDialog {
     Q_OBJECT
 
 public:
-    explicit WelcomeDialog(QWidget *parent = nullptr);
+    WelcomeDialog(const Settings& set, QWidget* parent = Q_NULLPTR);
     ~WelcomeDialog();
 
 private:
     Ui::WelcomeDialog *ui;
 };
 
-#endif // WELCOMEDIALOG_H
+
+class DialogWelcomeFabric : public AbstractDialogFabric {
+public:
+    AbstractDialog* build(QWidget* parent, const Settings& set) const override {
+        return new WelcomeDialog(set, parent);
+    }
+};

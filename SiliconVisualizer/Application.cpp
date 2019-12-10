@@ -1,7 +1,7 @@
 #include "Application.h"
 #include <cmath>
 
-
+#include "WelcomeDialog.h"
 #include <qcustom3ditem.h>
 
 #include "SiliconCell.h"
@@ -19,6 +19,11 @@ Application::Application(QWidget* parent)
 	drawInit();
 	toggleRotation();
     setAction();
+    showWelcomeWindow();
+}
+
+void Application::showWelcomeWindow() {
+    createDialog(DialogWelcomeFabric(), SettingsNone());
 }
 
 Application::~Application() {
@@ -46,7 +51,6 @@ void Application::drawInit() {
 	m_graph->scene()->activeCamera()->setCameraPreset(Q3DCamera::CameraPresetIsometricRight);
     m_graph->activeTheme()->setType(Q3DTheme::ThemeRetro);
 	m_graph->activeTheme()->setLabelBorderEnabled(true);
-//    m_graph->activeTheme()->setLabelBackgroundColor(QColor(QRgb(0x151550)));
 	m_graph->activeTheme()->setLabelTextColor(Qt::lightGray);
 	m_graph->activeTheme()->setFont(QFont("Arial Black", 30));
 
@@ -85,16 +89,21 @@ void Application::setAction() {
 	
     viewMenu->addAction(tr("&Settings"), this, [=]() { createDialog(DialogSizeScatterFabric(),
 		SettingsSizeScatter(m_verticalRange, m_cell, m_graph)); });
+
+    const auto refMenu = ui.menuBar->addMenu(tr("&Reference"));
+
+    refMenu->addAction(tr("&Actions"), this,
+                       [=]() { createDialog(DialogWelcomeFabric(), SettingsNone()); });
 }
 
 void Application::createDialog(const AbstractDialogFabric& fabric, const Settings& set) {
-	if (active == nullptr) {
-		active = fabric.build(this, set);
+    if (m_active == nullptr) {
+        m_active = fabric.build(this, set);
 	}
-	if(! active->isVisible()) {
-		active->show();
-		active->exec();
-		delete active;
-		active = nullptr;
+    if(! m_active->isVisible()) {
+        m_active->show();
+        m_active->exec();
+        delete m_active;
+        m_active = nullptr;
 	}
 }
