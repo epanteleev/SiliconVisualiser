@@ -92,7 +92,7 @@ void Application::setAction() {
 
     const auto refMenu = ui.menuBar->addMenu(tr("&Reference"));
 
-    refMenu->addAction(tr("&Actions"), this,
+    refMenu->addAction(tr("&Welcome"), this,
                        [=]() { createDialog(DialogWelcomeFabric(), SettingsNone()); });
 }
 

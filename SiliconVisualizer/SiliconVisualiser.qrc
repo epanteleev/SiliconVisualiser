@@ -2,7 +2,9 @@
     <qresource prefix="/SiliconVisualiser">
         <file>Resources/largesphere.obj</file>
         <file>Resources/mouse-icon.jpg</file>
-        <file>Resources/mouse-right-button.png</file>
         <file>Resources/silicon-cell.png</file>
+        <file>Resources/theory.jpg</file>
+        <file>Resources/silicon-cell0.png</file>
+        <file>Resources/mouse-right-button.png</file>
     </qresource>
 </RCC>

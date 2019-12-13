@@ -7,6 +7,7 @@ WelcomeDialog::WelcomeDialog(const Settings& set, QWidget* parent) :
     ui(new Ui::WelcomeDialog)
 {
     ui->setupUi(this);
+   // ui->scrollArea->setWidget(ui->theoryLabel);
 }
 
 WelcomeDialog::~WelcomeDialog() {
