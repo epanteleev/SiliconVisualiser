@@ -7,12 +7,12 @@ namespace Ui {
 class WelcomeDialog;
 }
 
-class WelcomeDialog : public AbstractDialog {
+class DialogWelcome : public AbstractDialog {
     Q_OBJECT
 
 public:
-    WelcomeDialog(const Settings& set, QWidget* parent = Q_NULLPTR);
-    ~WelcomeDialog();
+    DialogWelcome(const Settings& set, QWidget* parent = Q_NULLPTR);
+    ~DialogWelcome();
 
 private:
     Ui::WelcomeDialog *ui;
@@ -22,6 +22,6 @@ private:
 class DialogWelcomeFabric : public AbstractDialogFabric {
 public:
     AbstractDialog* build(QWidget* parent, const Settings& set) const override {
-        return new WelcomeDialog(set, parent);
+        return new DialogWelcome(set, parent);
     }
 };
