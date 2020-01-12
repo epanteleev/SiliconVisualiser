@@ -10,12 +10,6 @@ class DialogSizeScatter : public AbstractDialog {
 public:
 	DialogSizeScatter(const Settings& set, QWidget* parent = Q_NULLPTR);
 
-private:
-	enum TypeScale{
-		X = 0,
-		Y,
-		Z
-	};
 private slots:
     void updateScale();
     void updateCellShape();
@@ -32,16 +26,15 @@ private slots:
     void on_longitudinal_toggled(bool checked);
 
 private:
+    atom::OscilationT getOscilT();
+
+private:
 	const SettingsSizeScatter* m_set;
 	Ui::DialogSizeScatter ui{};
 	float m_backupSizeItem;
-	QVector3D m_backupScale;
-    OscilationT m_backupOscilT;
 	float m_prev;
-    double m_backupAmplitude;
-    double m_backupQ;
-    double m_backupFreq;
-    OscilationT getOscilT();
+    atom::CellProperty m_backupProperty;
+
 };
 
 class DialogSizeScatterFabric : public AbstractDialogFabric {

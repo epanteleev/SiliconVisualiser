@@ -4,41 +4,34 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
-# The following define makes your compiler emit warnings if you use
-# any Qt feature that has been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-# You can also make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+INCLUDEPATH += include/
+DEPENDPATH += src/
 
 SOURCES += \
-    AbstractDialog.cpp \
-    CellGenerator.cpp \
-    DialogSizeScatter.cpp \
-    SiliconCell.cpp \
-    WelcomeDialog.cpp \
-    main.cpp \
-    Application.cpp
+    src/CellGenerator.cpp \
+    src/DialogSizeScatter.cpp \
+    src/DialogWelcome.cpp \
+    src/SiliconCell.cpp \
+    src/main.cpp \
+    src/Application.cpp
 
 HEADERS += \
-    AbstractDialog.h \
-    Application.h \
-    AtomSet.h \
-    CellGenerator.h \
-    DialogSizeScatter.h \
-    Settings.h \
-    SiliconCell.h \
-    SiliconVisualiser.rc \
-    WelcomeDialog.h
+    include/AbstractDialog.h \
+    include/Application.h \
+    include/AtomSet.h \
+    include/CellGenerator.h \
+    include/CellProperty.h \
+    include/DialogSizeScatter.h \
+    include/DialogWelcome.h \
+    include/Settings.h \
+    include/SiliconCell.h \
 
 FORMS += \
-    DialogSizeScatter.ui \
-    GuiApplication.ui \
-    WelcomeDialog.ui
+    forms/DialogSizeScatter.ui \
+    forms/DialogWelcome.ui \
+    forms/GuiApplication.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -49,7 +42,7 @@ CONFIG(release, debug|release) {
     message( "enable release mode" )
     win32-g++ {
         message("used g++")
-        QMAKE_CXXFLAGS += -O3
+       # QMAKE_CXXFLAGS += -O3
     }
 }
 
@@ -59,3 +52,8 @@ CONFIG(debug, debug|release) {
 
 RESOURCES += \
     SiliconVisualiser.qrc
+
+documentation.path = $$PWD
+documentation.files = README.txt
+
+INSTALLS += documentation

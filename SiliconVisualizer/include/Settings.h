@@ -1,13 +1,15 @@
 #pragma once
 #include "SiliconCell.h"
 
+#define VERSION "0.0.1"
+
 class Settings {
 public:
 	Settings() = default;
 	virtual ~Settings() = default;
 };
 
-class SettingsSizeScatter : public Settings  {
+class SettingsSizeScatter final : public Settings  {
 public:
     SettingsSizeScatter(float& range, SiliconCell* cell, QtDataVisualization::Q3DScatter* graph):
 		m_graph(graph),
@@ -22,6 +24,6 @@ public:
 	float& m_range;
 };
 
-class SettingsNone : public Settings {
+class SettingsNone final : public Settings {
     //None
 };

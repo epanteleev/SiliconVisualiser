@@ -18,9 +18,8 @@ public:
 	~Application();
 
 private:
-    void drawInit();
+    void init();
     void setAction();
-    void showWelcomeWindow();
 
 public slots:
 	void createDialog(const AbstractDialogFabric& fabric, const Settings& set);
@@ -38,6 +37,6 @@ private:
 	QTimer m_rotationTimer;
 	Ui::GuiApplicationClass ui;
 	unsigned m_angle{};
-
-    AbstractDialog* m_active{};
+    QHBoxLayout* m_box{};
+    AbstractDialog* m_activeDialog{};
 };

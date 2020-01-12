@@ -3,13 +3,10 @@
 DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
 	AbstractDialog(parent)
 {
-	m_set = dynamic_cast<const SettingsSizeScatter*>(&set);
+    m_set = static_cast<const SettingsSizeScatter*>(&set);
 	m_backupSizeItem = m_set->m_graph->seriesList().first()->itemSize();
-	m_backupScale = m_set->m_cell->scale();
-    m_backupOscilT = m_set->m_cell->getOscilT();
-    m_backupAmplitude = m_set->m_cell->getAmpl();
-    m_backupQ = m_set->m_cell->getQ();
-    m_backupFreq = m_set->m_cell->getFreq();
+
+    m_backupProperty = m_set->m_cell->property();
 	ui.setupUi(this);
 
 	connect(ui.applyButton, &QPushButton::released, this, &DialogSizeScatter::apply);
@@ -35,25 +32,25 @@ DialogSizeScatter::DialogSizeScatter(const Settings& set, QWidget* parent):
     connect(ui.transverse, SIGNAL(toggled(bool)), this, SLOT(updatePhysParams()));
 
     //initiated
+
 	ui.rangeSlider->setValue(m_set->m_range);
-    ui.amplitudeSlider->setValue(m_backupAmplitude * 20);
-    ui.qSlider->setValue(m_set->m_cell->getQ());
-    ui.freqSlider->setValue(m_set->m_cell->getFreq() * 10);
-    const auto spinValue = m_set->m_cell->scale();
+    ui.amplitudeSlider->setValue(m_backupProperty.m_ampl * 20);
+    ui.qSlider->setValue(m_backupProperty.m_q);
+    ui.freqSlider->setValue(m_backupProperty.m_freq * 10);
+    const auto spinValue = m_backupProperty.m_scale;
     ui.xSpinBox->setValue(spinValue.x());
     ui.ySpinBox->setValue(spinValue.y());
     ui.zSpinBox->setValue(spinValue.z());
 
 	m_prev = m_set->m_range;
 
-    on_acoustic_toggled(m_backupOscilT == OscilationT::acousticTransverse ||
-                        m_backupOscilT == OscilationT::acousticLongitudinal);
-    on_longitudinal_toggled(m_backupOscilT == OscilationT::acousticLongitudinal ||
-                            m_backupOscilT == OscilationT::opticalLongitudinal);
+    using namespace atom;
+    on_acoustic_toggled(m_backupProperty.m_oscilT == OscilationT::acousticTransverse ||
+                        m_backupProperty.m_oscilT == OscilationT::acousticLongitudinal);
+    on_longitudinal_toggled(m_backupProperty.m_oscilT == OscilationT::acousticLongitudinal ||
+                            m_backupProperty.m_oscilT == OscilationT::opticalLongitudinal);
 
-    ui.amplitudeNumber->display(QString::number(m_set->m_cell->getAmpl()) + QString(" A"));
-    ui.amplitudeNumber->display(m_set->m_cell->getQ());
-    ui.freqNumber->display(m_set->m_cell->getFreq());
+    changedSliders();
 }
 
 void DialogSizeScatter::updateScale() {
@@ -74,10 +71,10 @@ void DialogSizeScatter::updateScale() {
 }
 
 void DialogSizeScatter::updateCellShape() {
-	QVector3D vec;
-	vec.setX(ui.xSpinBox->value());
-	vec.setY(ui.ySpinBox->value());
-	vec.setZ(ui.zSpinBox->value());
+    QVector3D vec;
+    vec.setX(ui.xSpinBox->value());
+    vec.setY(ui.ySpinBox->value());
+    vec.setZ(ui.zSpinBox->value());
     m_set->m_cell->generateData(vec);
 }
 
@@ -89,10 +86,13 @@ void  DialogSizeScatter::changedSliders() {
 
 void DialogSizeScatter::updatePhysParams() {
     changedSliders();
-    m_set->m_cell->setOscilT(getOscilT());
-    m_set->m_cell->setAmpl(ui.amplitudeSlider->value() / 20.);
-    m_set->m_cell->setQ(ui.qSlider->value());
-    m_set->m_cell->setFreq(ui.freqSlider->value() / 10.);
+    atom::CellProperty set;
+    set.m_oscilT = getOscilT();
+    set.m_ampl = ui.amplitudeSlider->value() / 20.0;
+    set.m_q = ui.qSlider->value();
+    set.m_freq = ui.freqSlider->value() / 10.0;
+    m_set->m_cell->setProperty(set);
+    updateCellShape();
 }
 
 void DialogSizeScatter::apply() {
@@ -108,11 +108,9 @@ void DialogSizeScatter::cancel() {
 	s->axisY()->setRange(-m_set->m_range, m_set->m_range);
 	s->axisZ()->setRange(-rng, rng);
 	s->seriesList().first()->setItemSize(m_backupSizeItem);
-    m_set->m_cell->setOscilT(m_backupOscilT);
-	m_set->m_cell->generateData(m_backupScale);
-    m_set->m_cell->setAmpl(m_backupAmplitude);
-    m_set->m_cell->setQ(m_backupQ);
-    m_set->m_cell->setFreq(m_backupFreq);
+    m_set->m_cell->generateData(m_backupProperty.m_scale);
+
+    m_set->m_cell->setProperty(m_backupProperty);
 	this->close();
 }
 
@@ -157,7 +155,8 @@ void DialogSizeScatter::on_longitudinal_toggled(bool checked) {
     }
 }
 
-OscilationT DialogSizeScatter::getOscilT() {
+atom::OscilationT DialogSizeScatter::getOscilT() {
+    using namespace atom;
     if (ui.acoustic->checkState() == Qt::CheckState::Checked) {
         if (ui.transverse->checkState() == Qt::CheckState::Checked) {
             return OscilationT::acousticTransverse;

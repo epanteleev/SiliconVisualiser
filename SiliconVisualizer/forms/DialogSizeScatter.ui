@@ -125,7 +125,7 @@
          <item>
           <widget class="QSlider" name="rangeSlider">
            <property name="minimum">
-            <number>1</number>
+            <number>3</number>
            </property>
            <property name="maximum">
             <number>80</number>

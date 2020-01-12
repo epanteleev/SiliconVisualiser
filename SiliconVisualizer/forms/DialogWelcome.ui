@@ -26,7 +26,7 @@
    <string>Welcome</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="SiliconVisualiser.qrc">
+   <iconset resource="../SiliconVisualiser.qrc">
     <normaloff>:/SiliconVisualiser/Resources/silicon-cell.png</normaloff>:/SiliconVisualiser/Resources/silicon-cell.png</iconset>
   </property>
   <widget class="QPushButton" name="pushButton">
@@ -62,7 +62,7 @@
          </font>
         </property>
         <property name="text">
-         <string>View|Settings - open settings window</string>
+         <string> View|Settings - open settings window</string>
         </property>
        </widget>
       </item>
@@ -86,7 +86,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="SiliconVisualiser.qrc">:/SiliconVisualiser/Resources/mouse-right-button.png</pixmap>
+           <pixmap resource="../SiliconVisualiser.qrc">:/SiliconVisualiser/Resources/mouse-right-button.png</pixmap>
           </property>
          </widget>
         </item>
@@ -111,7 +111,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="SiliconVisualiser.qrc">:/SiliconVisualiser/Resources/silicon-cell0.png</pixmap>
+             <pixmap resource="../SiliconVisualiser.qrc">:/SiliconVisualiser/Resources/silicon-cell0.png</pixmap>
             </property>
            </widget>
           </item>
@@ -163,7 +163,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="SiliconVisualiser.qrc">:/SiliconVisualiser/Resources/theory.jpg</pixmap>
+           <pixmap resource="../SiliconVisualiser.qrc">:/SiliconVisualiser/Resources/theory.jpg</pixmap>
           </property>
          </widget>
         </item>
@@ -175,7 +175,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="SiliconVisualiser.qrc"/>
+  <include location="../SiliconVisualiser.qrc"/>
  </resources>
  <connections>
   <connection>

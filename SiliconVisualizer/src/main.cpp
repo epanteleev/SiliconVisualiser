@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
-	Application w;
-	w.show();
+    auto w = std::make_unique<Application>();
+    w->show();
 	return a.exec();
 }
