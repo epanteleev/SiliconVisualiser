@@ -7,7 +7,6 @@
 *.core
 *.moc
 *.o
-*.obj
 *.orig
 *.rej
 *.so
@@ -30,7 +29,6 @@ moc_*.cpp
 ui_*.h
 qrc_*.cpp
 Thumbs.db
-.obj
 *.res
 *.rc
 /.qmake.cache
