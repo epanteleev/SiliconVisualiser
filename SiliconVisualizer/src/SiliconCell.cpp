@@ -7,8 +7,6 @@
 #include <cmath>
 #include "CellGenerator.h"
 
-static const double pi = 3.14159265359;
-
 using namespace  QtDataVisualization;
 
 SiliconCell::SiliconCell(QtDataVisualization::Q3DScatter* graph, const float atomScaling):
@@ -83,17 +81,20 @@ void SiliconCell::oscilation(const double t) {
             property.m_oscilT == OscilationT::acousticLongitudinal) {
         for (size_t i = 0; i < size; ++i) {
             setCoordAtomsNew[i] = m_originalSetCoordAtom[i] +
-                    property.m_ampl * std::cos(pi * property.m_q * levels[i] / m_distanceBetweenAtoms + property.m_freq * t) * shift;
+                    property.m_ampl * std::cos(property.m_q * levels[i] * m_distanceBetweenAtoms / std::sqrt(8.)
+                                               + property.m_freq * t) * shift;
         }
     } else if (property.m_oscilT == OscilationT::opticalTransverse ||
                property.m_oscilT == OscilationT::opticalLongitudinal) {
         for (size_t i = 0; i < size; ++i) {
             if (levels[i] % 2 == 0) {
                 setCoordAtomsNew[i] = m_originalSetCoordAtom[i] +
-                        property.m_ampl * std::cos(pi * property.m_q * levels[i] / m_distanceBetweenAtoms + property.m_freq * t) * shift;
+                        property.m_ampl * std::cos(property.m_q * levels[i] * m_distanceBetweenAtoms / std::sqrt(8.)
+                                                   + property.m_freq * t) * shift;
             } else {
                 setCoordAtomsNew[i] = m_originalSetCoordAtom[i] -
-                        property.m_ampl * std::cos(pi * property.m_q * levels[i] / m_distanceBetweenAtoms + property.m_freq * t) * shift;
+                        property.m_ampl * std::cos(property.m_q * levels[i] * m_distanceBetweenAtoms / std::sqrt(8.)
+                                                   + property.m_freq * t) * shift;
             }
         }
     } else{
