@@ -1,7 +1,7 @@
 #pragma once
 #include "SiliconCell.h"
 
-#define VERSION "0.0.1"
+#define VERSION "0.1.1"
 
 class Settings {
 public:
